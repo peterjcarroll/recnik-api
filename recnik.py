@@ -1,7 +1,10 @@
 import hug
 import spell
 
-@hug.get()
+def cors_support(response, *args, **kwargs):
+    response.set_header('Access-Control-Allow-Origin', '*')
+
+@hug.get(requires=cors_support)
 def suggest(search: hug.types.text):
     words = spell.candidates(search)
     is_word = len(spell.known([search]))>0
